@@ -8,7 +8,7 @@ class Caro:
         pygame.display.set_caption("Caro")
         self.width = 1000
         self.height = 800
-        self.fps = 60
+        self.fps = 120
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,75 +39,50 @@ class Caro:
         self.player1 = []
         self.player2 = []
         self.turn = "X"
-        self.boardW = self.boardImage.get_width()
-        self.boardH = self.boardImage.get_height()
+        self.boardW = self.boardX.get_width()
+        self.boardH = self.boardX.get_height()
+        self.save = []
         
         self.font = pygame.font.Font("assets/FreeSansBold.ttf", 25)
     
-    def reset_game(self):
-        self.board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-        self.moveCount = 20 * 20
-        self.gameover = False
-        self.WINNING = -1
-        self.player1 = []
-        self.player2 = []
-        self.turn = "X"
-    
-    def board_generation(self):
-        for i in range(20):
-            for j in range(20):
-                pos = pygame.mouse.get_pos()
-                self.rect = self.boardImage.get_rect() #(self.boardW * i + 10, self.boardH * j + 10, self.boardW, self.boardH)
-                self.rect.topleft = (self.boardW * i + 10, self.boardH * j + 10)
-                if self.rect.collidepoint(pos):
-                    for event in pygame.event.get():
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            if self.turn == "X" and self.board[i][j] == 0 and not self.gameover and event.button == 1:
-                                self.turn = "O"
-                                self.moveCount -= 1
-                                self.board[i][j] = 1
-                                if self.checkWinning(i, j, 1) == 1:
-                                    self.WINNING = 1
-                                    self.gameover = True
-                                if self.turn == 0:
-                                    self.WINNING = 0
-                                    self.gameover = True
-                            elif self.turn == "O" and self.board[i][j] == 0 and not self.gameover and event.button == 1:
-                                self.turn = "X"
-                                self.moveCount -= 1
-                                self.board[i][j] = 2
-                                if self.checkWinning(i, j, 2) == 2:
-                                    self.WINNING = 2
-                                    self.gameover = True
-                                if self.turn == 0:
-                                    self.WINNING = 0
-                                    self.gameover = True
-                                    
-                if self.board[i][j] == 0:
-                    self.screen.blit(self.boardImage, (self.boardW * i + 10, self.boardH * j + 10))
-                if self.board[i][j] == 1:
-                    self.screen.blit(self.boardX, (self.boardW * i + 10, self.boardH * j + 10))
-                if self.board[i][j] == 2:
-                    self.screen.blit(self.boardY, (self.boardW * i + 10, self.boardH * j + 10))
+    def draw_board(self):
+        self.screen.blit(self.boardImage, (10, 10))
+        pos = pygame.mouse.get_pos()
+        self.rect = self.boardImage.get_rect()
+        self.rect.topleft = (10, 10)
+        if self.rect.collidepoint(pos):
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x = (pos[0] - 10) // self.boardW
+                    y = (pos[1] - 10) // self.boardH
+                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover:
+                        self.board[x][y] = 1
+                        self.save.append([x, y, 1])
+                        self.turn = "O"
+                        self.moveCount -= 1
+                        if self.checkWinning(x, y, 1) == 1:
+                            self.WINNING = 1
+                            self.gameover = True
+                        elif self.turn == 0:
+                            self.WINNING = 0
+                            self.gameover = True
+                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover:
+                        self.board[x][y] = 2
+                        self.save.append([x, y, 2])
+                        self.turn = "X"
+                        self.moveCount -= 1
+                        if self.checkWinning(x, y, 2) == 2:
+                            self.WINNING = 2
+                            self.gameover = True
+                        elif self.turn == 0:
+                            self.WINNING = 0
+                            self.gameover = True
+        for i in self.save:
+            if i[2] == 1:
+                self.screen.blit(self.boardX, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
+            if i[2] == 2:
+                self.screen.blit(self.boardY, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
+        
     
     def isValidateRowCol(self, row_index, col_index):
         if 0 <= row_index < 20 and 0 <= col_index < 20:
@@ -167,11 +142,11 @@ class Caro:
                     
     def run(self):
         clock = pygame.time.Clock()
-        self.reset_game()
+        self.__init__()
         while True:
             self.screen.fill((255, 255, 255))
             clock.tick(self.fps)
-            self.board_generation()
+            self.draw_board()
             if self.gameover:
                 if self.WINNING == 0:
                     self.text = self.font.render("DEUCE", True, (0, 0, 0))
