@@ -64,7 +64,7 @@ class minigame:
             if abs(i.center[0] - pos[0]) < self.width/20 and abs(i.center[1] - pos[1]) < self.height/16:
                 if abs(i.center[0] - pos[0]) < self.width/100 and abs(i.center[1] - pos[1]) < self.height/80:
                     self.score[0] += 3
-                elif abs(i.center[0] - pos[0]) < self.width/41 and abs(i.center[1] - pos[1]) < self.height/33:
+                elif abs(i.center[0] - pos[0]) < self.width/50 and abs(i.center[1] - pos[1]) < self.height/40:
                     self.score[0] += 2
                 else:
                     self.score[0] += 1
@@ -76,7 +76,7 @@ class minigame:
             if abs(i.center[0] - pos[0]) < self.width/20 and abs(i.center[1] - pos[1]) < self.height/16:
                 if abs(i.center[0] - pos[0]) < self.width/100 and abs(i.center[1] - pos[1]) < self.height/80:
                     self.score[1] += 3
-                elif abs(i.center[0] - pos[0]) < self.width/41 and abs(i.center[1] - pos[1]) < self.height/33:
+                elif abs(i.center[0] - pos[0]) < self.width/50 and abs(i.center[1] - pos[1]) < self.height/40:
                     self.score[1] += 2
                 else:
                     self.score[1] += 1
