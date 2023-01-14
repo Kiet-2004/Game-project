@@ -62,7 +62,9 @@ class Caro:
                 if pos[0] > 10 and pos[0] < self.boardImage.get_width() + 10 and pos[1] > 10 and pos[1] < self.boardImage.get_height() + 10:
                     x = (pos[0] - 10) // self.boardW
                     y = (pos[1] - 10) // self.boardH
-                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover:
+                    _x = (pos[0] - 10) % self.boardW
+                    _y = (pos[1] - 10) % self.boardH
+                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 30 and _y > 3 and _y < 30:
                         self.board[x][y] = 1
                         self.save.append([x, y, 1])
                         self.turn = "O"
@@ -73,7 +75,7 @@ class Caro:
                         elif self.moveCount == 0:
                             self.WINNING = 0
                             self.gameover = True
-                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover:
+                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 30 and _y > 3 and _y < 30:
                         self.board[x][y] = 2
                         self.save.append([x, y, 2])                        
                         self.turn = "X"
@@ -170,7 +172,7 @@ class Caro:
                     self.screen.blit(self.text, (720, 200))
                 if self.turn == "O":
                     self.text = self.font.render("Player 2's turn", True, (0, 0, 0))
-                    self.screen.blit(self.text, (720, 600))                 
+                    self.screen.blit(self.text, (720, 600))       
             pygame.display.update()    
     
 Caro().run()
