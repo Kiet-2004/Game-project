@@ -30,7 +30,7 @@ class Caro:
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-        self.moveCount = 20 * 20
+        self.moveCount = 400
         self.gameover = False
         self.WINNING = -1
         self.boardImage = pygame.image.load("assets/board.png").convert_alpha()
@@ -47,12 +47,19 @@ class Caro:
     
     def draw_board(self):
         self.screen.blit(self.boardImage, (10, 10))
-        pos = pygame.mouse.get_pos()
-        self.rect = self.boardImage.get_rect()
-        self.rect.topleft = (10, 10)
-        if self.rect.collidepoint(pos):
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    self.__init__()
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if pos[0] > 10 and pos[0] < self.boardImage.get_width() + 10 and pos[1] > 10 and pos[1] < self.boardImage.get_height() + 10:
                     x = (pos[0] - 10) // self.boardW
                     y = (pos[1] - 10) // self.boardH
                     if self.turn == "X" and self.board[x][y] == 0 and not self.gameover:
@@ -63,18 +70,18 @@ class Caro:
                         if self.checkWinning(x, y, 1) == 1:
                             self.WINNING = 1
                             self.gameover = True
-                        elif self.turn == 0:
+                        elif self.moveCount == 0:
                             self.WINNING = 0
                             self.gameover = True
                     elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover:
                         self.board[x][y] = 2
-                        self.save.append([x, y, 2])
+                        self.save.append([x, y, 2])                        
                         self.turn = "X"
                         self.moveCount -= 1
                         if self.checkWinning(x, y, 2) == 2:
                             self.WINNING = 2
                             self.gameover = True
-                        elif self.turn == 0:
+                        elif self.moveCount == 0:
                             self.WINNING = 0
                             self.gameover = True
         for i in self.save:
@@ -170,8 +177,8 @@ class Caro:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r:
-                        self.run()
+                    if event.key == pygame.K_r and self.gameover:
+                        self.__init__()
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
