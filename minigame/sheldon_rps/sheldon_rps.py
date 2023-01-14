@@ -15,7 +15,7 @@ class minigame:
         self.spock = py.transform.scale(py.image.load('../../assets/minigame/sheldons_rps/spock.png').convert_alpha(), (self.width/5, self.height/2))
         self.rock_rect = self.rock.get_rect(topleft = (0, 0))
         self.paper_rect = self.paper.get_rect(topleft = (self.width/5, 0))
-        self.scissors_rect = self.scissors.get_rect(topleft = (self.height/2, 0))
+        self.scissors_rect = self.scissors.get_rect(topleft = (self.width*2/5, 0))
         self.lizard_rect = self.lizard.get_rect(topleft = (self.width*3/5, 0))
         self.spock_rect = self.spock.get_rect(topleft = (self.width*4/5, 0))
         self.mng = [ [self.rock, self.rock_rect, 0],
