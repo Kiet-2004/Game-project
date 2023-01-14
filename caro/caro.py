@@ -8,7 +8,7 @@ class Caro:
         pygame.display.set_caption("Caro")
         self.width = 1000
         self.height = 800
-        self.fps = 120
+        self.fps = 60
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -170,19 +170,7 @@ class Caro:
                     self.screen.blit(self.text, (720, 200))
                 if self.turn == "O":
                     self.text = self.font.render("Player 2's turn", True, (0, 0, 0))
-                    self.screen.blit(self.text, (720, 600))
-                    
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_r and self.gameover:
-                        self.__init__()
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        sys.exit()
-            
+                    self.screen.blit(self.text, (720, 600))                 
             pygame.display.update()    
     
 Caro().run()
