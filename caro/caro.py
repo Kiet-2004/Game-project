@@ -64,7 +64,7 @@ class Caro:
                     y = (pos[1] - 10) // self.boardH
                     _x = (pos[0] - 10) % self.boardW
                     _y = (pos[1] - 10) % self.boardH
-                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 30 and _y > 3 and _y < 30:
+                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
                         self.board[x][y] = 1
                         self.save.append([x, y, 1])
                         self.turn = "O"
@@ -75,7 +75,7 @@ class Caro:
                         elif self.moveCount == 0:
                             self.WINNING = 0
                             self.gameover = True
-                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 30 and _y > 3 and _y < 30:
+                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
                         self.board[x][y] = 2
                         self.save.append([x, y, 2])                        
                         self.turn = "X"
