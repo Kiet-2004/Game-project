@@ -83,4 +83,4 @@ class minigame:
             self.draw()
             py.display.update()
 
-print(minigame().run())
+#print(minigame().run())

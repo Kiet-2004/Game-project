@@ -94,7 +94,8 @@ class minigame:
                     py.quit()
                 elif event.type == py.MOUSEBUTTONDOWN:
                     self.shoot(event.pos)
-            if self.time > 40:
+            if self.time > 30:
+                py.mouse.set_visible(True)
                 if self.score[0] > self.score[1]:
                     return 1
                 elif self.score[1] > self.score[0]:
@@ -103,4 +104,4 @@ class minigame:
                     self.__init__()
             py.display.update()
 
-print(minigame().run())
+#print(minigame().run())
