@@ -37,9 +37,9 @@ class Caro:
         self.moveCount = 400
         self.gameover = False
         self.WINNING = -1
-        self.boardImage = pygame.image.load("assets/board.png").convert_alpha()
-        self.boardX = pygame.image.load("assets/X.png").convert_alpha()
-        self.boardY = pygame.image.load("assets/Y.png").convert_alpha()
+        self.boardImage = pygame.image.load("../assets/caro/board.png").convert_alpha()
+        self.boardX = pygame.image.load("../assets/caro/X.png").convert_alpha()
+        self.boardY = pygame.image.load("../assets/caro/Y.png").convert_alpha()
         self.turn = "X"
         self.boardW = self.boardX.get_width()
         self.boardH = self.boardX.get_height()
@@ -49,7 +49,7 @@ class Caro:
         self.player2_chal = 4
         self.player1_cd = 0
         self.player2_cd = 0
-        self.font = pygame.font.Font("assets/FreeSansBold.ttf", 25)
+        self.font = pygame.font.Font("../assets/font/FreeSansBold.ttf", 25)
         
     def minigame(self):
         if self.turn == "X" and self.player1_cd > 0:
