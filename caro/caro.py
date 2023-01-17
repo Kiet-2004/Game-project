@@ -47,25 +47,29 @@ class Caro:
         self.mini_game = {1: gun, 2: rps}
         self.player1_chal = 4
         self.player2_chal = 4
-        self.player1_cd = False
-        self.player2_cd = False
+        self.player1_cd = 0
+        self.player2_cd = 0
         self.font = pygame.font.Font("assets/FreeSansBold.ttf", 25)
         
     def minigame(self):
-        if self.turn == "X" and not self.player1_cd:
+        if self.turn == "X" and self.player1_cd > 0:
             self.player1_chal -= 1
-            self.player1_cd = True
             if self.mini_game[rint(1, 2)]().run() == 1:
                 self.board[self.save[-1][0]][self.save[-1][1]] = 1
                 self.save[-1][2] = 1
                 self.turn = "O"
-        elif self.turn == "O" and not self.player2_cd:
+                self.player1_cd = 0
+            else:
+                self.player1_cd = -1
+        elif self.turn == "O" and self.player2_cd > 0:
             self.player2_chal -= 1
-            self.player2_cd = True
             if self.mini_game[rint(1, 2)]().run() == 0:
                 self.board[self.save[-1][0]][self.save[-1][1]] = 2
                 self.save[-1][2] = 2
-                self.turn = "X"                    
+                self.turn = "X"
+                self.player2_cd = 0
+            else:
+                self.player2_cd = -1
         
     def draw_board(self):
         self.screen.blit(self.boardImage, (10, 10))
@@ -98,7 +102,7 @@ class Caro:
                             self.save.append([x, y, 1])
                             self.turn = "O"
                             self.moveCount -= 1
-                            self.player1_cd = False
+                            self.player1_cd += 1
                             if self.checkWinning(x, y, 1) == 1:
                                 self.WINNING = 1
                                 self.gameover = True
@@ -110,7 +114,7 @@ class Caro:
                             self.save.append([x, y, 2])                        
                             self.turn = "X"
                             self.moveCount -= 1
-                            self.player2_cd = False
+                            self.player2_cd += 1
                             if self.checkWinning(x, y, 2) == 2:
                                 self.WINNING = 2
                                 self.gameover = True
