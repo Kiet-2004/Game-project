@@ -7,12 +7,12 @@ class minigame:
         self.height = 400 * 2
         self.fps = 60
         self.screen = py.display.set_mode((self.width, self.height))
-        self.font = py.font.Font('../assets/font/FreeSansBold.ttf', int(self.height/16))
-        self.rock = py.transform.scale(py.image.load('../assets/minigame/sheldons_rps/rock.png').convert_alpha(), (self.width/5, self.height/2))
-        self.paper = py.transform.scale(py.image.load('../assets/minigame/sheldons_rps/paper.png').convert_alpha(), (self.width/5, self.height/2))
-        self.scissors = py.transform.scale(py.image.load('../assets/minigame/sheldons_rps/scissors.png').convert_alpha(), (self.width/5, self.height/2))
-        self.lizard = py.transform.scale(py.image.load('../assets/minigame/sheldons_rps/lizard.png').convert_alpha(), (self.width/5, self.height/2))
-        self.spock = py.transform.scale(py.image.load('../assets/minigame/sheldons_rps/spock.png').convert_alpha(), (self.width/5, self.height/2))
+        self.font = py.font.Font('assets/font/FreeSansBold.ttf', int(self.height/16))
+        self.rock = py.transform.scale(py.image.load('assets/minigame/sheldons_rps/rock.png').convert_alpha(), (self.width/5, self.height/2))
+        self.paper = py.transform.scale(py.image.load('assets/minigame/sheldons_rps/paper.png').convert_alpha(), (self.width/5, self.height/2))
+        self.scissors = py.transform.scale(py.image.load('assets/minigame/sheldons_rps/scissors.png').convert_alpha(), (self.width/5, self.height/2))
+        self.lizard = py.transform.scale(py.image.load('assets/minigame/sheldons_rps/lizard.png').convert_alpha(), (self.width/5, self.height/2))
+        self.spock = py.transform.scale(py.image.load('assets/minigame/sheldons_rps/spock.png').convert_alpha(), (self.width/5, self.height/2))
         self.rock_rect = self.rock.get_rect(topleft = (0, 0))
         self.paper_rect = self.paper.get_rect(topleft = (self.width/5, 0))
         self.scissors_rect = self.scissors.get_rect(topleft = (self.width*2/5, 0))

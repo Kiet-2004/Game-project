@@ -8,9 +8,9 @@ class minigame:
         self.height = 400 * 2
         self.fps = 60
         self.screen = py.display.set_mode((self.width, self.height))
-        self.font = py.font.Font('../assets/font/FreeSansBold.ttf', int(self.height/16))
-        self.cross = py.transform.scale(py.image.load('../assets/minigame/gungunbang/crosshair.png'), (self.width/10, self.height/8))
-        self.tag = py.transform.scale(py.image.load('../assets/minigame/gungunbang/target.png'), (self.width/10, self.height/8))
+        self.font = py.font.Font('assets/font/FreeSansBold.ttf', int(self.height/16))
+        self.cross = py.transform.scale(py.image.load('assets/minigame/gungunbang/crosshair.png'), (self.width/10, self.height/8))
+        self.tag = py.transform.scale(py.image.load('assets/minigame/gungunbang/target.png'), (self.width/10, self.height/8))
         py.mouse.set_visible(False)
         self.ori_time = py.time.get_ticks()
         self.score = [0, 0]
