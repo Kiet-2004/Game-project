@@ -1,6 +1,10 @@
 import pygame
 from pygame.locals import *
 import sys
+sys.path.append("../minigame")
+from random import randint as rint
+from gungunbang import minigame as gun
+from sheldon_rps import minigame as rps
 
 class Caro:
     def __init__(self):
@@ -36,17 +40,39 @@ class Caro:
         self.boardImage = pygame.image.load("assets/board.png").convert_alpha()
         self.boardX = pygame.image.load("assets/X.png").convert_alpha()
         self.boardY = pygame.image.load("assets/Y.png").convert_alpha()
-        self.player1 = []
-        self.player2 = []
         self.turn = "X"
         self.boardW = self.boardX.get_width()
         self.boardH = self.boardX.get_height()
         self.save = []
-        
+        self.mini_game = {1: gun, 2: rps}
+        self.player1_chal = 4
+        self.player2_chal = 4
+        self.player1_cd = False
+        self.player2_cd = False
         self.font = pygame.font.Font("assets/FreeSansBold.ttf", 25)
-    
+        
+    def minigame(self):
+        if self.turn == "X" and not self.player1_cd:
+            self.player1_chal -= 1
+            self.player1_cd = True
+            if self.mini_game[rint(1, 2)]().run() == 1:
+                self.board[self.save[-1][0]][self.save[-1][1]] = 1
+                self.save[-1][2] = 1
+                self.turn = "O"
+        elif self.turn == "O" and not self.player2_cd:
+            self.player2_chal -= 1
+            self.player2_cd = True
+            if self.mini_game[rint(1, 2)]().run() == 0:
+                self.board[self.save[-1][0]][self.save[-1][1]] = 2
+                self.save[-1][2] = 2
+                self.turn = "X"                    
+        
     def draw_board(self):
         self.screen.blit(self.boardImage, (10, 10))
+        self.chal = pygame.draw.rect(self.screen, (255, 0, 0), (720, 400, 150, 50))
+        self.screen.blit(self.font.render("Challenge", True, (0, 0, 0)), (720, 400))
+        self.screen.blit(self.font.render(str(self.player1_chal), True, (0, 0, 0)), (720, 350))
+        self.screen.blit(self.font.render(str(self.player2_chal), True, (0, 0, 0)), (720, 450))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -58,34 +84,39 @@ class Caro:
                     pygame.quit()
                     sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                if pos[0] > 10 and pos[0] < self.boardImage.get_width() + 10 and pos[1] > 10 and pos[1] < self.boardImage.get_height() + 10:
-                    x = (pos[0] - 10) // self.boardW
-                    y = (pos[1] - 10) // self.boardH
-                    _x = (pos[0] - 10) % self.boardW
-                    _y = (pos[1] - 10) % self.boardH
-                    if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
-                        self.board[x][y] = 1
-                        self.save.append([x, y, 1])
-                        self.turn = "O"
-                        self.moveCount -= 1
-                        if self.checkWinning(x, y, 1) == 1:
-                            self.WINNING = 1
-                            self.gameover = True
-                        elif self.moveCount == 0:
-                            self.WINNING = 0
-                            self.gameover = True
-                    elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
-                        self.board[x][y] = 2
-                        self.save.append([x, y, 2])                        
-                        self.turn = "X"
-                        self.moveCount -= 1
-                        if self.checkWinning(x, y, 2) == 2:
-                            self.WINNING = 2
-                            self.gameover = True
-                        elif self.moveCount == 0:
-                            self.WINNING = 0
-                            self.gameover = True
+                pos = event.pos
+                if self.chal.collidepoint(pos):
+                    self.minigame()
+                else:
+                    if pos[0] > 10 and pos[0] < self.boardImage.get_width() + 10 and pos[1] > 10 and pos[1] < self.boardImage.get_height() + 10:
+                        x = (pos[0] - 10) // self.boardW
+                        y = (pos[1] - 10) // self.boardH
+                        _x = (pos[0] - 10) % self.boardW
+                        _y = (pos[1] - 10) % self.boardH
+                        if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
+                            self.board[x][y] = 1
+                            self.save.append([x, y, 1])
+                            self.turn = "O"
+                            self.moveCount -= 1
+                            self.player1_cd = False
+                            if self.checkWinning(x, y, 1) == 1:
+                                self.WINNING = 1
+                                self.gameover = True
+                            elif self.moveCount == 0:
+                                self.WINNING = 0
+                                self.gameover = True
+                        elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
+                            self.board[x][y] = 2
+                            self.save.append([x, y, 2])                        
+                            self.turn = "X"
+                            self.moveCount -= 1
+                            self.player2_cd = False
+                            if self.checkWinning(x, y, 2) == 2:
+                                self.WINNING = 2
+                                self.gameover = True
+                            elif self.moveCount == 0:
+                                self.WINNING = 0
+                                self.gameover = True
         for i in self.save:
             if i[2] == 1:
                 self.screen.blit(self.boardX, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
