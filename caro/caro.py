@@ -127,7 +127,6 @@ class Caro:
                                     self.gameover = True
                             self.turn = "X"
                             self.player2_cd += 1
-                        print(self.save)
         for i in self.save:
             if i[2] == 1:
                 self.screen.blit(self.boardX, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
@@ -198,7 +197,6 @@ class Caro:
             for u in range (0, 20):
                 if rint(1, 100) % 20 == 0:
                     self.boom.append([i, u])
-        print(self.boom)
 
     def booom(self, x, y):
         self.save.append([x, y, 3])
