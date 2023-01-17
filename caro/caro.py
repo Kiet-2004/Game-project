@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 import sys
-sys.path.append("../minigame")
 from random import randint as rint
 from gungunbang import minigame as gun
 from sheldon_rps import minigame as rps
@@ -9,7 +8,6 @@ from sheldon_rps import minigame as rps
 class Caro:
     def __init__(self):
         pygame.init()
-        pygame.display.set_caption("Caro")
         self.width = 1000
         self.height = 800
         self.fps = 60
@@ -37,9 +35,10 @@ class Caro:
         self.moveCount = 400
         self.gameover = False
         self.WINNING = -1
-        self.boardImage = pygame.image.load("../assets/caro/board.png").convert_alpha()
-        self.boardX = pygame.image.load("../assets/caro/X.png").convert_alpha()
-        self.boardY = pygame.image.load("../assets/caro/Y.png").convert_alpha()
+        self.boardImage = pygame.image.load("assets/caro/board.png").convert_alpha()
+        self.boardX = pygame.image.load("assets/caro/X.png").convert_alpha()
+        self.boardY = pygame.image.load("assets/caro/Y.png").convert_alpha()
+        self.boardB = pygame.image.load("assets/caro/boom.png").convert_alpha()
         self.turn = "X"
         self.boardW = self.boardX.get_width()
         self.boardH = self.boardX.get_height()
@@ -49,7 +48,8 @@ class Caro:
         self.player2_chal = 4
         self.player1_cd = 0
         self.player2_cd = 0
-        self.font = pygame.font.Font("../assets/font/FreeSansBold.ttf", 25)
+        self.font = pygame.font.Font("assets/font/FreeSansBold.ttf", 25)
+        self.boom = []
         
     def minigame(self):
         if self.turn == "X" and self.player1_cd > 0:
@@ -83,7 +83,7 @@ class Caro:
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    self.__init__()
+                    self.run()
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
@@ -98,34 +98,43 @@ class Caro:
                         _x = (pos[0] - 10) % self.boardW
                         _y = (pos[1] - 10) % self.boardH
                         if self.turn == "X" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
-                            self.board[x][y] = 1
-                            self.save.append([x, y, 1])
+                            if [x, y] in self.boom:
+                                self.booom(x, y)
+                            else:
+                                self.board[x][y] = 1
+                                self.save.append([x, y, 1])
+                                self.moveCount -= 1
+                                if self.checkWinning(x, y, 1) == 1:
+                                    self.WINNING = 1
+                                    self.gameover = True
+                                elif self.moveCount == 0:
+                                    self.WINNING = 0
+                                    self.gameover = True
                             self.turn = "O"
-                            self.moveCount -= 1
                             self.player1_cd += 1
-                            if self.checkWinning(x, y, 1) == 1:
-                                self.WINNING = 1
-                                self.gameover = True
-                            elif self.moveCount == 0:
-                                self.WINNING = 0
-                                self.gameover = True
                         elif self.turn == "O" and self.board[x][y] == 0 and not self.gameover and _x > 3 and _x < 32 and _y > 3 and _y < 32:
-                            self.board[x][y] = 2
-                            self.save.append([x, y, 2])                        
+                            if [x, y] in self.boom:
+                                self.booom(x, y)
+                            else:
+                                self.board[x][y] = 2
+                                self.save.append([x, y, 2])                                                        
+                                self.moveCount -= 1                                
+                                if self.checkWinning(x, y, 2) == 2:
+                                    self.WINNING = 2
+                                    self.gameover = True
+                                elif self.moveCount == 0:
+                                    self.WINNING = 0
+                                    self.gameover = True
                             self.turn = "X"
-                            self.moveCount -= 1
                             self.player2_cd += 1
-                            if self.checkWinning(x, y, 2) == 2:
-                                self.WINNING = 2
-                                self.gameover = True
-                            elif self.moveCount == 0:
-                                self.WINNING = 0
-                                self.gameover = True
+                        print(self.save)
         for i in self.save:
             if i[2] == 1:
                 self.screen.blit(self.boardX, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
             if i[2] == 2:
                 self.screen.blit(self.boardY, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
+            if i[2] == 3:
+                self.screen.blit(self.boardB, (self.boardW * i[0] + 10, self.boardH * i[1] + 10))
         
     
     def isValidateRowCol(self, row_index, col_index):
@@ -184,9 +193,31 @@ class Caro:
                         
         return -1 
                     
-    def run(self):
+    def doomdays(self):
+        for i in range (0, 20):
+            for u in range (0, 20):
+                if rint(1, 100) % 20 == 0:
+                    self.boom.append([i, u])
+        print(self.boom)
+
+    def booom(self, x, y):
+        self.save.append([x, y, 3])
+        for i in range (x-1, x+2):
+            for u in range (y-1, y+2):
+                if self.board[i][u] in [1, 2]:
+                    self.moveCount += 1
+                    if self.board[i][u] == 1:
+                        self.save.pop(self.save.index([i, u, 1]))
+                    else:
+                        self.save.pop(self.save.index([i, u, 2]))
+                    self.board[i][u] = 0
+        self.board[x][y] = 3
+        
+    def run(self, mode):
         clock = pygame.time.Clock()
         self.__init__()
+        if mode == 2:     
+            self.doomdays()
         while True:
             self.screen.fill((255, 255, 255))
             clock.tick(self.fps)
@@ -210,4 +241,4 @@ class Caro:
                     self.screen.blit(self.text, (720, 600))       
             pygame.display.update()    
     
-Caro().run()
+#Caro().run()
