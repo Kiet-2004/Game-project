@@ -3,6 +3,8 @@ import sys
 sys.path.append('caro')
 sys.path.append('minigame')
 from caro import Caro
+from gungunbang import minigame as gun
+from sheldon_rps import minigame as rps
 
 class Board:
     def __init__(self):
@@ -16,16 +18,35 @@ class Board:
         self.title = py.font.Font("assets/font/FreeSansBold.ttf", int(self.height/8))
         self.mode1 = self.font.render("\"Normal\" Mode", True, (0, 0, 0))
         self.mode2 = self.font.render("Doomdays Mode", True, (0, 0, 0))
+        self.mode3 = self.font.render("Challenge", True, (0, 0, 0))
         self.mode1_rect = self.mode1.get_rect(center = (self.width/2, self.height/2))
-        self.mode2_rect = self.mode2.get_rect(center = (self.width/2, self.height*3/4))
+        self.mode2_rect = self.mode2.get_rect(center = (self.width/2, self.height*5/8))
+        self.mode3_rect = self.mode3.get_rect(center = (self.width/2, self.height*6/8))
+        self.mode4 = self.font.render("Sheldon's RPS", True, (0, 0, 0))
+        self.mode5 = self.font.render("Gungunbang", True, (0, 0, 0))
+        self.mode6 = self.font.render("Go back", True, (0, 0, 0))
+        self.mode4_rect = self.mode4.get_rect(center = (self.width/2, self.height/2))
+        self.mode5_rect = self.mode5.get_rect(center = (self.width/2, self.height*5/8))
+        self.mode6_rect = self.mode6.get_rect(center = (self.width/2, self.height*6/8))
+        self.challenge = False
 
     def draw(self):
         self.screen.fill((255, 255, 255))
-        self.screen.blit (self.title.render("Ultimate Caro", True, (0, 0, 0)), self.title.render("Ultimate Caro", True, (0, 0, 0)).get_rect(center = (self.width/2, self.height/4)))
-        py.draw.rect(self.screen, (255, 0, 0), self.mode1_rect)
-        py.draw.rect(self.screen, (255, 0, 0), self.mode2_rect)
-        self.screen.blit(self.mode1, self.mode1_rect)
-        self.screen.blit(self.mode2, self.mode2_rect)
+        self.screen.blit (self.title.render("Ultimate Caro", True, (0, 0, 0)), self.title.render("Ultimate Caro", True, (0, 0, 0)).get_rect(center = (self.width/2, self.height/4)))        
+        if self.challenge:
+            py.draw.rect(self.screen, (255, 0, 0), self.mode4_rect)
+            py.draw.rect(self.screen, (255, 0, 0), self.mode5_rect)
+            py.draw.rect(self.screen, (255, 0, 0), self.mode6_rect)
+            self.screen.blit(self.mode4, self.mode4_rect)
+            self.screen.blit(self.mode5, self.mode5_rect)
+            self.screen.blit(self.mode6, self.mode6_rect)
+        else:
+            py.draw.rect(self.screen, (255, 0, 0), self.mode1_rect)
+            py.draw.rect(self.screen, (255, 0, 0), self.mode2_rect)
+            py.draw.rect(self.screen, (255, 0, 0), self.mode3_rect)
+            self.screen.blit(self.mode1, self.mode1_rect)
+            self.screen.blit(self.mode2, self.mode2_rect)
+            self.screen.blit(self.mode3, self.mode3_rect)
 
     def run(self):
         while True:
@@ -35,13 +56,23 @@ class Board:
                 if event.type == py.QUIT:
                     py.quit()
                 if event.type == py.KEYDOWN:
-                    if event.key == K_ESCAPE:
+                    if event.key == py.K_ESCAPE:
                         py.quit()
                 if event.type == py.MOUSEBUTTONDOWN:
-                    if self.mode1_rect.collidepoint(event.pos):
-                        Caro().run(1)
-                    elif self.mode2_rect.collidepoint(event.pos):
-                        Caro().run(2)
+                    if self.challenge:
+                        if self.mode4_rect.collidepoint(event.pos):
+                            print(rps().run())
+                        elif self.mode5_rect.collidepoint(event.pos):
+                            print(gun().run())
+                        elif self.mode6_rect.collidepoint(event.pos):
+                            self.challenge = False
+                    else:
+                        if self.mode1_rect.collidepoint(event.pos):
+                            Caro().run(1)
+                        elif self.mode2_rect.collidepoint(event.pos):
+                            Caro().run(2)
+                        elif self.mode3_rect.collidepoint(event.pos):
+                            self.challenge = True
             py.display.update()
 
 Board().run()
