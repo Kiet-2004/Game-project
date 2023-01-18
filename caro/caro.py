@@ -44,7 +44,7 @@ class Caro:
         self.boardW = self.boardX.get_width()
         self.boardH = self.boardX.get_height()
         self.save = []
-        self.mini_game = {1: gun, 2: rps, 3: shoot}
+        self.mini_game = {1: gun, 2: rps, 3:shoot}
         self.player1_chal = 4
         self.player2_chal = 4
         self.player1_cd = 0

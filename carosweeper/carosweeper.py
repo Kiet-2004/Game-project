@@ -82,7 +82,12 @@ class carosweeper:
         self.player1 = 300
         self.player2 = 300
         self.turn = "X"
-        self.start = pygame.time.get_ticks()
+
+    def timer(self):
+        if self.turn == "X":
+            self.player1 -= 1
+        if self.turn == "O":
+            self.player2 -= 1
        
     def draw_board(self):
         self.screen.blit(self.boardImage, (10, 10))
@@ -243,7 +248,6 @@ class carosweeper:
             self.screen.fill((255, 255, 255))
             clock.tick(self.fps)
             self.draw_board()
-            self.timer()
             if self.gameover:
                 if self.WINNING == 0:
                     self.text = self.font.render("DEUCE", True, (0, 0, 0))
@@ -258,9 +262,23 @@ class carosweeper:
                 if self.turn == "X":
                     self.text = self.font.render("Player 1's turn", True, (0, 0, 0))
                     self.screen.blit(self.text, (720, 200))
+                    self.player1 -= 1/60
+                    if self.player1 < 0:
+                        self.gameover = True
+                        self.WINNING = 2
                 if self.turn == "O":
                     self.text = self.font.render("Player 2's turn", True, (0, 0, 0))
                     self.screen.blit(self.text, (720, 600))
+                    self.player2 -= 1/60
+                    if self.player2 < 0:
+                        self.gameover = True
+                        self.WINNING = 1
+                self.text = str(int(self.player1))
+                self.text = self.font.render(self.text, True, (0, 0, 0))
+                self.screen.blit(self.text, (720, 300))
+                self.text = str(int(self.player2))
+                self.text = self.font.render(self.text, True, (0, 0, 0))
+                self.screen.blit(self.text, (720, 500))
             pygame.display.update()
             
 carosweeper().run()

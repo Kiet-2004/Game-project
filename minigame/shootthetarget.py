@@ -1,7 +1,6 @@
 import pygame
 import sys
 
-
 window_w, window_h = 1000, 800
 window = pygame.display.set_mode((window_w, window_h))
 class Player(pygame.sprite.Sprite):
@@ -71,12 +70,12 @@ class Target():
         if self.state == "normal":
             window.blit(self.image, self.rect)
 
-pathx = 'assets/shootthertarget/x_spaceship.png'
-patho = 'assets/shootthertarget/o_spaceship.png'
-pathshieldx = "assets/shootthertarget/X_shield.png"
-pathshieldo = "assets/shootthertarget/O_shield.png"
-Xhumanpath = 'assets/shootthertarget/xtarget.png'
-Ohumanpath = 'assets/shootthertarget/otarget.png'
+pathx = 'assets/minigame/shootthertarget/x_spaceship.png'
+patho = 'assets/minigame/shootthertarget/o_spaceship.png'
+pathshieldx = "assets/minigame/shootthertarget/X_shield.png"
+pathshieldo = "assets/minigame/shootthertarget/O_shield.png"
+Xhumanpath = 'assets/minigame/shootthertarget/xtarget.png'
+Ohumanpath = 'assets/minigame/shootthertarget/otarget.png'
 class minigame():
     def __init__(self):
         pygame.init()
@@ -84,8 +83,8 @@ class minigame():
         self.window = pygame.display.set_mode((1000,800))
         self.playerX = Player(pathx, 300, 350)
         self.playerO = Player(patho, 600, 350)
-        self.bulletO = Bullet('assets/shootthertarget/rightbullet.png',0,0,-10)
-        self.bulletX = Bullet('assets/shootthertarget/leftbullet.png',0,0, 10)
+        self.bulletO = Bullet('assets/minigame/shootthertarget/rightbullet.png',0,0,-10)
+        self.bulletX = Bullet('assets/minigame/shootthertarget/leftbullet.png',0,0, 10)
         self.shieldO = Shield(pathshieldo, 700, 350)
         self.shieldX = Shield(pathshieldx, 250, 350)
         self.xhuman = []
@@ -102,8 +101,8 @@ class minigame():
         self.fps =  60
         self.time = 30
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font('assets/shootthertarget/undertalefont.ttf', 40)
-        self.fontwin = pygame.font.Font('assets/shootthertarget/undertalefont.ttf', 60)
+        self.font = pygame.font.Font('assets/minigame/shootthertarget/undertalefont.ttf', 40)
+        self.fontwin = pygame.font.Font('assets/minigame/shootthertarget/undertalefont.ttf', 60)
     def redrawwindow(self):
         self.window.fill((255,255,255))
         self.playerO.draw()

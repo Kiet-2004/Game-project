@@ -26,7 +26,7 @@ class Board:
         self.mode4 = self.font.render("Sheldon's RPS", True, (0, 0, 0))
         self.mode5 = self.font.render("Gungunbang", True, (0, 0, 0))
         self.mode6 = self.font.render("Shoot the targets", True, (0, 0, 0))
-        self.mode7 = self.font.render("Go back", True, (0,0,0))
+        self.mode7 = self.font.render("Go back", True, (0, 0, 0))
         self.mode4_rect = self.mode4.get_rect(center = (self.width/2, self.height/2))
         self.mode5_rect = self.mode5.get_rect(center = (self.width/2, self.height*5/8))
         self.mode6_rect = self.mode6.get_rect(center = (self.width/2, self.height*6/8))
