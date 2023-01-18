@@ -74,9 +74,10 @@ class Caro:
     def draw_board(self):
         self.screen.blit(self.boardImage, (10, 10))
         self.chal = pygame.draw.rect(self.screen, (255, 0, 0), (720, 400, 150, 50))
-        self.screen.blit(self.font.render("Challenge", True, (0, 0, 0)), (720, 400))
-        self.screen.blit(self.font.render(str(self.player1_chal), True, (0, 0, 0)), (720, 350))
-        self.screen.blit(self.font.render(str(self.player2_chal), True, (0, 0, 0)), (720, 450))
+        if not self.gameover:
+            self.screen.blit(self.font.render("Challenge", True, (0, 0, 0)), (720, 400))
+            self.screen.blit(self.font.render(str(self.player1_chal), True, (0, 0, 0)), (720, 350))
+            self.screen.blit(self.font.render(str(self.player2_chal), True, (0, 0, 0)), (720, 450))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -89,7 +90,7 @@ class Caro:
                     sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = event.pos
-                if self.chal.collidepoint(pos):
+                if self.chal.collidepoint(pos) and not self.gameover:
                     self.minigame()
                 else:
                     if pos[0] > 10 and pos[0] < self.boardImage.get_width() + 10 and pos[1] > 10 and pos[1] < self.boardImage.get_height() + 10:
