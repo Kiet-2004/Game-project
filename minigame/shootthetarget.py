@@ -84,8 +84,8 @@ class minigame():
         self.window = pygame.display.set_mode((1000,800))
         self.playerX = Player(pathx, 300, 350)
         self.playerO = Player(patho, 600, 350)
-        self.bulletO = Bullet('assets/protekyourhuman/rightbullet.png',0,0,-10)
-        self.bulletX = Bullet('assets/protekyourhuman/leftbullet.png',0,0, 10)
+        self.bulletO = Bullet('assets/shootthertarget/rightbullet.png',0,0,-10)
+        self.bulletX = Bullet('assets/shootthertarget/leftbullet.png',0,0, 10)
         self.shieldO = Shield(pathshieldo, 700, 350)
         self.shieldX = Shield(pathshieldx, 250, 350)
         self.xhuman = []
