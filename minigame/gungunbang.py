@@ -1,7 +1,5 @@
 import pygame as py
 from random import randint as r
-import sys
-sys.path.append("../")
 
 class minigame:
     def __init__(self):
