@@ -4,6 +4,7 @@ import sys
 from random import randint as rint
 from gungunbang import minigame as gun
 from sheldon_rps import minigame as rps
+from shootthetarget import minigame as shoot
 
 class Caro:
     def __init__(self):
@@ -43,7 +44,7 @@ class Caro:
         self.boardW = self.boardX.get_width()
         self.boardH = self.boardX.get_height()
         self.save = []
-        self.mini_game = {1: gun, 2: rps}
+        self.mini_game = {1: gun, 2: rps, 3: shoot}
         self.player1_chal = 4
         self.player2_chal = 4
         self.player1_cd = 0
@@ -54,7 +55,7 @@ class Caro:
     def minigame(self):
         if self.turn == "X" and self.player1_cd > 0:
             self.player1_chal -= 1
-            if self.mini_game[rint(1, 2)]().run() == 1:
+            if self.mini_game[rint(1, 3)]().run() == 1:
                 self.board[self.save[-1][0]][self.save[-1][1]] = 1
                 self.save[-1][2] = 1
                 self.turn = "O"
@@ -63,7 +64,7 @@ class Caro:
                 self.player1_cd = -1
         elif self.turn == "O" and self.player2_cd > 0:
             self.player2_chal -= 1
-            if self.mini_game[rint(1, 2)]().run() == 0:
+            if self.mini_game[rint(1, 3)]().run() == 0:
                 self.board[self.save[-1][0]][self.save[-1][1]] = 2
                 self.save[-1][2] = 2
                 self.turn = "X"
