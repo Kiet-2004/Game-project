@@ -24,7 +24,7 @@ class player():
 
 class ball():
     def __init__(self):
-        self.image = pygame.image.load("assets/minigame/speedpong/ball.png")
+        self.image = pygame.image.load("./assets/minigame/speedpong/ball.png")
         self.rect = self.image.get_rect()
         self.speed = [5, -5]
         self.rect.center = [500, 400 ]
